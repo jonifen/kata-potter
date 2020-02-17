@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PotterKata
 {
@@ -31,7 +32,22 @@ namespace PotterKata
         {
             get
             {
-                return (_books.Count * _bookPrice) * (1 - _discounts[_books.Count]);
+                decimal runningTotal = 0;
+                var remainingBooks = new List<int>(_books);
+
+                while (remainingBooks.Count > 0)
+                {
+                    var currentBookSet = remainingBooks.Distinct().ToList();
+
+                    foreach(var book in currentBookSet)
+                    {
+                        remainingBooks.Remove(book);
+                    }
+
+                    runningTotal += (currentBookSet.Count * _bookPrice) * (1 - _discounts[currentBookSet.Count]);
+                }
+
+                return runningTotal;
             }
         }
     }

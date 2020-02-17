@@ -19,7 +19,15 @@ namespace PotterKataTests
         [TestCase(new int[] { 1, 2, 3 }, 21.60, TestName = "3) Scan Three Different Books, Get Price")]
         [TestCase(new int[] { 1, 2, 3, 4 }, 25.60, TestName = "4) Scan Four Different Books, Get Price")]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, 30.00, TestName = "5) Scan Five Different Books, Get Price")]
-        public void BasketTestCases(int[] books, decimal expectedPrice)
+        public void SimpleTestCases(int[] books, decimal expectedPrice)
+        {
+            _basket.Add(books);
+            Assert.AreEqual(expectedPrice, _basket.Total);
+        }
+
+        [Test]
+        [TestCase(new int[] { 1, 1, 2 }, 23.20, TestName = "6) Scan Three Books, 2 different, Get Price")]
+        public void CombinatorialTestCases(int[] books, decimal expectedPrice)
         {
             _basket.Add(books);
             Assert.AreEqual(expectedPrice, _basket.Total);
