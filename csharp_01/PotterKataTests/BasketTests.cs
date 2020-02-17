@@ -14,24 +14,13 @@ namespace PotterKataTests
         }
 
         [Test]
-        public void ScanOneBookGetPrice()
+        [TestCase(new int[] { 1 }, 8, TestName = "Scan One Book, Get Price")]
+        [TestCase(new int[] { 1, 2 }, 15.20, TestName = "Scan Two Different Books, Get Price")]
+        [TestCase(new int[] { 1, 2, 3 }, 21.60, TestName = "Scan Three Different Books, Get Price")]
+        public void BasketTestCases(int[] books, decimal expectedPrice)
         {
-            _basket.Add(new int[] { 1 });
-            Assert.AreEqual(8, _basket.Total);
-        }
-
-        [Test]
-        public void ScanTwoDifferentBooksGetPrice()
-        {
-            _basket.Add(new int[] { 1, 2 });
-            Assert.AreEqual(15.2m, _basket.Total);
-        }
-
-        [Test]
-        public void ScanThreeDifferentBooksGetPrice()
-        {
-            _basket.Add(new int[] { 1, 2, 3 });
-            Assert.AreEqual(21.6m, _basket.Total);
+            _basket.Add(books);
+            Assert.AreEqual(expectedPrice, _basket.Total);
         }
     }
 }
