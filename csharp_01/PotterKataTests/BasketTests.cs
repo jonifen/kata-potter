@@ -26,5 +26,12 @@ namespace PotterKataTests
             _basket.Add(new int[] { 1, 2 });
             Assert.AreEqual(15.2m, _basket.Total);
         }
+
+        [Test]
+        public void ScanThreeDifferentBooksGetPrice()
+        {
+            _basket.Add(new int[] { 1, 2, 3 });
+            Assert.AreEqual(21.6m, _basket.Total);
+        }
     }
 }

@@ -5,11 +5,19 @@ namespace PotterKata
 {
     public class Basket
     {
+        private readonly decimal _bookPrice = 8m;
         private readonly List<int> _books;
+        private readonly Dictionary<int, decimal> _discounts;
 
         public Basket()
         {
             _books = new List<int>();
+            _discounts = new Dictionary<int, decimal>
+            {
+                { 1, 0 },
+                { 2, 0.05m },
+                { 3, 0.10m }
+            };
         }
 
         public void Add(int[] books)
@@ -21,14 +29,7 @@ namespace PotterKata
         {
             get
             {
-                if (_books.Count == 1)
-                {
-                    return 8;
-                }
-                else
-                {
-                    return 15.2m;
-                }
+                return (_books.Count * _bookPrice) * (1 - _discounts[_books.Count]);
             }
         }
     }
