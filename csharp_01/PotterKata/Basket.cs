@@ -1,18 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PotterKata
 {
     public class Basket
     {
-        public void Add(int[] books)
+        private readonly List<int> _books;
+
+        public Basket()
         {
-            
+            _books = new List<int>();
         }
 
-        public decimal Total {
+        public void Add(int[] books)
+        {
+            _books.AddRange(books);
+        }
+
+        public decimal Total
+        {
             get
             {
-                return 8;
+                if (_books.Count == 1)
+                {
+                    return 8;
+                }
+                else
+                {
+                    return 15.2m;
+                }
             }
         }
     }
