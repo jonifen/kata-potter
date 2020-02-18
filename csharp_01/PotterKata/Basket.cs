@@ -1,31 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace PotterKata
 {
     public class Basket
     {
-        private readonly decimal _bookPrice = 8m;
-        private readonly List<int> _books;
-        private readonly Dictionary<int, decimal> _discounts;
+        private IList<Book> _books;
 
         public Basket()
         {
-            _books = new List<int>();
-            _discounts = new Dictionary<int, decimal>
-            {
-                { 1, 0 },
-                { 2, 0.05m },
-                { 3, 0.10m },
-                { 4, 0.20m },
-                { 5, 0.25m }
-            };
+            _books = new List<Book>();
         }
 
         public void Add(int[] books)
         {
-            _books.AddRange(books);
+            _books = new List<Book>(books.Select(book => new Book(book)));
         }
 
         public decimal Total
@@ -33,18 +22,21 @@ namespace PotterKata
             get
             {
                 decimal runningTotal = 0;
-                var remainingBooks = new List<int>(_books);
+                var remainingBooks = new List<Book>(_books);
 
                 while (remainingBooks.Count > 0)
                 {
-                    var currentBookSet = remainingBooks.Distinct().ToList();
+                    var currentBookSet = remainingBooks
+                        .GroupBy(b => b.Id)
+                        .Select(g => g.First())
+                        .ToList();
 
                     foreach(var book in currentBookSet)
                     {
                         remainingBooks.Remove(book);
                     }
 
-                    runningTotal += (currentBookSet.Count * _bookPrice) * (1 - _discounts[currentBookSet.Count]);
+                    runningTotal += new BookSet(currentBookSet).Total;
                 }
 
                 return runningTotal;
