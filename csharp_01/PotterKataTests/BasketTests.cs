@@ -38,8 +38,10 @@ namespace PotterKataTests
         }
 
         [Test]
-        [TestCase(new int[] { 1, 1, 2 }, 23.20, TestName = "Several Discounts. Two different books, one extra")]
-        [TestCase(new int[] { 1, 1, 2, 2 }, 30.40, TestName = "Several Discounts. Two different books twice")]
+        [TestCase(new int[] { 1, 1, 2 }, 23.20, TestName = "Several Discounts. 1x 5% and 1x single book")]
+        [TestCase(new int[] { 1, 1, 2, 2 }, 30.40, TestName = "Several Discounts. 2x 5% discount")]
+        [TestCase(new int[] { 1, 1, 2, 3, 3, 4 }, 40.80, TestName = "Several Discounts. 1x 20% and 1x 5% discount")]
+        [TestCase(new int[] { 1, 2, 2, 3, 4, 5 }, 38.00, TestName = "Several Discounts. 1x 25% and 1x single book")]
         public void TestSeveralDiscounts(int[] books, decimal expectedPrice)
         {
             _basket.Add(books);
@@ -48,13 +50,6 @@ namespace PotterKataTests
 
 
         /*
-            def testSeveralDiscounts
-              assert_equal(8 + (8 * 2 * 0.95), price([0, 0, 1]))
-              assert_equal(2 * (8 * 2 * 0.95), price([0, 0, 1, 1]))
-              assert_equal((8 * 4 * 0.8) + (8 * 2 * 0.95), price([0, 0, 1, 2, 2, 3]))
-              assert_equal(8 + (8 * 5 * 0.75), price([0, 1, 1, 2, 3, 4]))
-            end
-
             def testEdgeCases
               assert_equal(2 * (8 * 4 * 0.8), price([0, 0, 1, 1, 2, 2, 3, 4]))
               assert_equal(3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8), 
