@@ -42,9 +42,9 @@ namespace PotterKataTests
         [TestCase(new int[] { 1, 2, 2, 3, 4, 5 }, 38.00, TestName = "Several Discounts. 1x 25% and 1x single book")]
         public void TestSeveralDiscounts(int[] books, decimal expectedPrice) => RunBasketTest(books, expectedPrice);
 
-        //[Test]
-        //[TestCase(new int[] { 1, 1, 2, 2, 3, 3, 4, 5 }, 51.20, TestName = "Edge Cases. 2x 20% discount")]
-        //[TestCase(new int[] { 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5 }, 141.20, TestName = "Edge Cases. 3x 25% and 2x 20% discount")]
-        //public void TestEdgeCases(int[] books, decimal expectedPrice) => RunBasketTest(books, expectedPrice);
+        [Test]
+        [TestCase(new int[] { 1, 1, 2, 2, 3, 3, 4, 5 }, 51.20, TestName = "Edge Cases. 2x 20% discount")]
+        [TestCase(new int[] { 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5 }, 141.20, TestName = "Edge Cases. 3x 25% and 2x 20% discount")]
+        public void TestEdgeCases(int[] books, decimal expectedPrice) => RunBasketTest(books, expectedPrice);
     }
 }

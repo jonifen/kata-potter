@@ -6,41 +6,57 @@ namespace PotterKata
     public class Basket
     {
         private IList<Book> _books;
+        private IList<BookSet> _bookSets;
 
         public Basket()
         {
             _books = new List<Book>();
+            _bookSets = new List<BookSet>();
         }
 
         public void Add(int[] books)
         {
             _books = new List<Book>(books.Select(book => new Book(book)));
+            AddBooksToBookSetsWithBestDiscount();
         }
 
         public decimal Total
         {
             get
             {
-                decimal runningTotal = 0;
-                var remainingBooks = new List<Book>(_books);
+                return CalculateTotalOfBookSets(_bookSets);
+            }
+        }
 
-                while (remainingBooks.Count > 0)
+        private void AddBooksToBookSetsWithBestDiscount()
+        {
+            var sortedBasket = _books.OrderBy(book => book);
+
+            foreach (var book in _books)
+            {
+                if (!_bookSets.Any(bookSet => bookSet.CanInclude(book)))
                 {
-                    var currentBookSet = remainingBooks
-                        .GroupBy(b => b.Id)
-                        .Select(g => g.First())
-                        .ToList();
-
-                    foreach(var book in currentBookSet)
-                    {
-                        remainingBooks.Remove(book);
-                    }
-
-                    runningTotal += new BookSet(currentBookSet).Total;
+                    _bookSets.Add(new BookSet(book));
+                    continue;
                 }
 
-                return runningTotal;
+                var cheapestOption = _bookSets
+                    .Where(s => s.CanInclude(book))
+                    .OrderBy(w => CalculateTotalOfBookSetsIncludingBookInSpecificBookSet(w, book))
+                    .First();
+                cheapestOption.Add(book);
             }
+        }
+
+        private decimal CalculateTotalOfBookSets(IEnumerable<BookSet> bookSets)
+        {
+            return bookSets.Sum(s => s.Total);
+        }
+
+        public decimal CalculateTotalOfBookSetsIncludingBookInSpecificBookSet(BookSet bookSet, Book book)
+        {
+            var bookSets = _bookSets.Where(s => s.Id != bookSet.Id);
+            return CalculateTotalOfBookSets(bookSets) + bookSet.CalculateTotalIncludingBook(book);
         }
     }
 }
