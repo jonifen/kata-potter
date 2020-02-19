@@ -5,19 +5,16 @@ namespace PotterKata
 {
     public class Basket
     {
-        private IList<Book> _books;
         private IList<BookSet> _bookSets;
 
         public Basket()
         {
-            _books = new List<Book>();
             _bookSets = new List<BookSet>();
         }
 
         public void Add(int[] books)
         {
-            _books = new List<Book>(books.Select(book => new Book(book)));
-            AddBooksToBookSetsWithBestDiscount();
+            AddBooksToBookSetsWithBestDiscount(new List<Book>(books.Select(book => new Book(book))));
         }
 
         public decimal Total
@@ -28,11 +25,11 @@ namespace PotterKata
             }
         }
 
-        private void AddBooksToBookSetsWithBestDiscount()
+        private void AddBooksToBookSetsWithBestDiscount(IList<Book> books)
         {
-            var sortedBasket = _books.OrderBy(book => book);
+            var sortedBasket = books.OrderBy(book => book);
 
-            foreach (var book in _books)
+            foreach (var book in books)
             {
                 if (!_bookSets.Any(bookSet => bookSet.CanInclude(book)))
                 {
