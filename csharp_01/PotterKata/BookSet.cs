@@ -7,14 +7,7 @@ namespace PotterKata
     public class BookSet
     {
         private readonly IList<Book> _books = new List<Book>();
-        private readonly Dictionary<int, decimal> _discounts = new Dictionary<int, decimal>
-        {
-            { 1, 0 },
-            { 2, 0.05m },
-            { 3, 0.10m },
-            { 4, 0.20m },
-            { 5, 0.25m }
-        };
+        private readonly Discounter _discounter = new Discounter();
 
         public BookSet(Book book)
         {
@@ -31,7 +24,7 @@ namespace PotterKata
         {
             get
             {
-                return _books.Sum(b => b.Price) * (1 - _discounts[_books.Count]);
+                return _books.Sum(b => b.Price) * _discounter.GetDiscount(_books);
             }
         }
 
@@ -45,7 +38,7 @@ namespace PotterKata
         {
             var tempBookSet = new List<Book>(_books);
             tempBookSet.Add(book);
-            return tempBookSet.Sum(b => b.Price) * (1 - _discounts[tempBookSet.Count]);
+            return tempBookSet.Sum(b => b.Price) * _discounter.GetDiscount(tempBookSet);
         }
 
         public Guid Id { get; private set; }
