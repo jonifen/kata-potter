@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PotterKata
 {
@@ -13,9 +14,10 @@ namespace PotterKata
             { 5, 0.25m }
         };
 
-        public decimal GetDiscount(IList<Book> books)
+        public decimal ApplyDiscount(IList<Book> books)
         {
-            return (1 - _discounts[books.Count]);
+            var discount = (1 - _discounts[books.Count]);
+            return books.Sum(b => b.Price) * discount;
         }
     }
 }

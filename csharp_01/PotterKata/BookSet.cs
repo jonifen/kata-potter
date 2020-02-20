@@ -24,7 +24,7 @@ namespace PotterKata
         {
             get
             {
-                return _books.Sum(b => b.Price) * _discounter.GetDiscount(_books);
+                return _discounter.ApplyDiscount(_books);
             }
         }
 
@@ -38,7 +38,7 @@ namespace PotterKata
         {
             var tempBookSet = new List<Book>(_books);
             tempBookSet.Add(book);
-            return tempBookSet.Sum(b => b.Price) * _discounter.GetDiscount(tempBookSet);
+            return _discounter.ApplyDiscount(tempBookSet);
         }
 
         public Guid Id { get; private set; }
